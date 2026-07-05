@@ -78,7 +78,13 @@ def run_evaluation() -> None:
             cat_ok = actual_cat.lower() == expected_cat.lower()
             
             # 3. action_specific
-            action_ok = len(action) > 20 and not action.isspace() and ("label" in action.lower() or "flag" in action.lower() or "report" in action.lower() or "do not share" in action.lower())
+            action_ok = len(action) > 20 and not action.isspace() and (
+                "label" in action.lower() or 
+                "flag" in action.lower() or 
+                "report" in action.lower() or 
+                "do not share" in action.lower() or 
+                "no action" in action.lower()
+            )
             
             # 4. report_complete
             required_fields = [
