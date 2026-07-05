@@ -32,10 +32,10 @@ graph TD
     D --> E[1. Export Evidence ZIP]
     D --> F[2. Remove Temporary Session Files]
     
-    style A fill:#1e293b,stroke:#334155,stroke-width:2px;
-    style B fill:#1e293b,stroke:#334155,stroke-width:2px;
-    style C fill:#1e293b,stroke:#334155,stroke-width:2px;
-    style D fill:#1e293b,stroke:#334155,stroke-width:2px;
+    style A fill:#1e293b,stroke:#334155,stroke-width:2px,color:#ffffff;
+    style B fill:#1e293b,stroke:#334155,stroke-width:2px,color:#ffffff;
+    style C fill:#1e293b,stroke:#334155,stroke-width:2px,color:#ffffff;
+    style D fill:#1e293b,stroke:#334155,stroke-width:2px,color:#ffffff;
 ```
 
 1.  **Input Validation:** Confirms file integrity, size constraints (max 10MB), safe extension matches, and generates a unique session token.
