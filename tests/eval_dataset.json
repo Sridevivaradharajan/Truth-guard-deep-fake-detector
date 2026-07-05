@@ -1,0 +1,32 @@
+[
+  {
+    "test_id": "TC01",
+    "description": "AI face image with political claim",
+    "expected_risk_level": "Critical",
+    "expected_harm_category": "Political Misinformation"
+  },
+  {
+    "test_id": "TC02",
+    "description": "Real photo with intact EXIF and true claim",
+    "expected_risk_level": "Low",
+    "expected_harm_category": "Entertainment / Low Risk"
+  },
+  {
+    "test_id": "TC03",
+    "description": "Real photo with stripped metadata and identity claim",
+    "expected_risk_level": "Medium",
+    "expected_harm_category": "Identity Impersonation"
+  },
+  {
+    "test_id": "TC04",
+    "description": "AI satire image with clear humorous label",
+    "expected_risk_level": "Low",
+    "expected_harm_category": "Entertainment / Low Risk"
+  },
+  {
+    "test_id": "TC05",
+    "description": "Face-swap bank official with UPI fraud claim",
+    "expected_risk_level": "Critical",
+    "expected_harm_category": "Financial Fraud"
+  }
+]

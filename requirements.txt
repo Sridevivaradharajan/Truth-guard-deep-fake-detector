@@ -1,0 +1,7 @@
+google-adk>=2.0
+google-generativeai
+pillow
+exifread
+reportlab
+streamlit
+python-dotenv
