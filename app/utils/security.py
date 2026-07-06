@@ -108,6 +108,24 @@ def create_session(session_id: str) -> Dict[str, Any]:
         Dict[str, Any]: Session details.
     """
     session_root = os.getenv("TRUTHGUARD_SESSION_DIR", "/tmp/truthguard")
+    
+    # Standard 2 (Ephemeral Storage): Clean up old evidence ZIP files in session_root
+    # that are older than 15 minutes to prevent persistent user data storage.
+    try:
+        if os.path.exists(session_root):
+            import time
+            now = time.time()
+            for file in os.listdir(session_root):
+                if file.startswith("truthguard_evidence_") and file.endswith(".zip"):
+                    file_path = os.path.join(session_root, file)
+                    if now - os.path.getmtime(file_path) > 900:  # 15 minutes
+                        try:
+                            os.remove(file_path)
+                        except Exception:
+                            pass
+    except Exception:
+        pass
+
     session_dir = os.path.join(session_root, session_id)
     evidence_dir = os.path.join(session_dir, "evidence")
     
@@ -120,6 +138,7 @@ def create_session(session_id: str) -> Dict[str, Any]:
         "session_dir": session_dir,
         "created_at": created_at
     }
+
 
 def cleanup_session(session_id: str) -> Dict[str, Any]:
     """

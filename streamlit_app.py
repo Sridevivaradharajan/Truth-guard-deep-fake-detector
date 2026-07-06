@@ -375,6 +375,7 @@ with right:
 
     has_report = "last_report" in st.session_state
     report = st.session_state["last_report"] if has_report else None
+    has_valid_report = has_report and report and not report.get("error")
 
     # 2. Tabs Interface for Structured Details (Always visible!)
     tab1, tab2, tab3, tab4, tab5 = st.tabs([
@@ -631,10 +632,10 @@ RECOMMENDED ACTION
     with tab5:
         st.markdown('<p style="font-size: 1rem; font-weight: 600; color: #f1f5f9; margin-bottom: 5px;">💬 Forensic Assistant Chatbot</p>', unsafe_allow_html=True)
         
-        session_chat_id = report["session_id"] if has_report else "general"
+        session_chat_id = report["session_id"] if has_valid_report else "general"
         chat_key = f"chat_history_{session_chat_id}"
         if chat_key not in st.session_state:
-            if has_report:
+            if has_valid_report:
                 st.session_state[chat_key] = [
                     {"role": "assistant", "content": "Hello! I am your TruthGuard forensic assistant. How can I help you understand this investigation?"}
                 ]
@@ -662,7 +663,7 @@ RECOMMENDED ACTION
                 for item in st.session_state[chat_key][:-1]:
                     formatted_history += f"{item['role'].capitalize()}: {item['content']}\n"
 
-                if has_report:
+                if has_valid_report:
                     total = report['context_verified_count'] + report['context_contradicted_count'] + report['context_unverifiable_count']
                     indicators_str = ", ".join(report['visual_primary_indicators']) if report['visual_primary_indicators'] else "None"
                     metadata_str = ", ".join(report['metadata_anomalies']) if report['metadata_anomalies'] else "None detected"

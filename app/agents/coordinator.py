@@ -101,10 +101,25 @@ def output(report: dict, session_id: str) -> dict:
     bundle_path = report.get("evidence_bundle_path", "")
     if not isinstance(bundle_path, str) or not bundle_path.strip():
         logger.warning("Evidence bundle path is empty or invalid.")
+    elif os.path.exists(bundle_path):
+        # Move the ZIP file out of the session folder to the session root directory
+        # so that it survives cleanup_session(session_id).
+        session_root = os.getenv("TRUTHGUARD_SESSION_DIR", "/tmp/truthguard")
+        filename = os.path.basename(bundle_path)
+        new_bundle_path = os.path.join(session_root, filename)
+        try:
+            import shutil
+            # Ensure session root directory exists
+            os.makedirs(session_root, exist_ok=True)
+            shutil.move(bundle_path, new_bundle_path)
+            report["evidence_bundle_path"] = new_bundle_path
+        except Exception as e:
+            logger.error(f"Failed to move evidence bundle: {str(e)}")
 
     # Cleanup temporary session files
     cleanup_session(session_id)
     return report
+
 
 # Entry point investigate function
 def investigate(image_path: str, claim_text: str) -> dict:
